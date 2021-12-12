@@ -1,3 +1,44 @@
 .quiz-list {
   margin: 20px;
 }
+
+.response {
+  margin: 40px 0;
+}
+
+.current-question {
+  margin: 40px;
+}
+
+.current-question > h2 {
+  margin: 0;
+}
+
+label {
+  display: block;
+}
+
+.question-page {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+.question-picker {
+  margin: 0;
+  padding: 40px;
+  background-color: gray;
+  color: white;
+}
+
+.question-link {
+  color: orange;
+  position: relative;
+}
+
+.question-link.active::after {
+  position: absolute;
+  content: '⬅';
+  margin-left: 4px;
+  color: white;
+}
