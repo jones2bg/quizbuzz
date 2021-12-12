@@ -1,9 +1,13 @@
 import {NavLink, useParams, useNavigate} from 'react-router-dom';
 import {quizzes} from './catalog';
+import {useDispatch, useSelector} from 'react-redux';
+import {setResponse} from './actions';
 
 export function Question(props) {
   const params = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const responses = useSelector(state => state.responses);
   const quiz = quizzes[params.quizSlug];
   const index = quiz.questions.findIndex(question => question.slug === params.questionSlug);
   const question = quiz.questions[index];
@@ -13,18 +17,34 @@ export function Question(props) {
     inputs =
       <div className="response">
         <label>
-          <input type="radio" name="group" />
+          <input
+            type="radio"
+            name="group"
+            checked={responses[question.slug] === true}
+            onChange={() => dispatch(setResponse(question.slug, true))}
+          />
           True
         </label>
         <label>
-          <input type="radio" name="group" />
+          <input
+            type="radio"
+            name="group"
+            checked={responses[question.slug] === false}
+            onChange={() => dispatch(setResponse(question.slug, false))}
+          />
           False
         </label>
       </div>;
   } else if (question.type === 'blank') {
     inputs =
       <div className="response">
-        <input type="text" />
+        <input
+          type="text"
+          value={responses[question.slug] || ''}
+          onChange={event => {
+            dispatch(setResponse(question.slug, event.target.value));
+          }}
+        />
       </div>;
   }
 
